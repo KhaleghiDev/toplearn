@@ -10,11 +10,16 @@ func main() {
 	PI = &I
 	fmt.Println(PI)
 	incriment(PI)
-	fmt.Println(*PI )
+	fmt.Println(*PI)
 	// incriment(&I)
 	fmt.Println(&I)
-
+	testDefer()
 }
-func incriment(p *int){
+func incriment(p *int) {
 	*p++
+}
+func testDefer() {
+	defer fmt.Println("wold")
+	defer fmt.Println("wold2")
+	fmt.Println("Hello")
 }
