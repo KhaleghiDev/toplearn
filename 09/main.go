@@ -12,7 +12,18 @@ func main() {
 	// buffer <- "world"
 	// fmt.Println(<-buffer)
 	// fmt.Println(<-buffer)
-	fmt.Println(<-WaitChanel(5, 2))
+	// *****call other func chen ****
+	// fmt.Println(<-WaitChanel(5, 2))
+	// *****select  ****
+	select {
+	case ch1 := <-WaitChanel(6, 9):
+		fmt.Println(ch1)
+	case ch2 := <-WaitChanel(8, 2):
+		fmt.Println(ch2)
+		// default:
+		// 	fmt.Println(" all slow chen!")
+
+	}
 
 }
 func WaitChanel(v, i int) chan int {
