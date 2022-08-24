@@ -15,7 +15,9 @@ type testruct struct {
 func newTStract() testInter{
 	return new(testruct)
 }
-
+func newTStractWithv(v int) testInter{
+	return &testruct{i:v}
+}
 func (ts *testruct) sayHello() {
 	fmt.Print("Hello \n")
 }
@@ -32,6 +34,7 @@ func (ts *testruct) GetValuePrint() int {
 func main() {
 	var test testInter
 	test= newTStract()   //&testruct{}
+	test= newTStractWithv(5) 
 	test.sayHello()
 	test.say("hi how are you !")
 	test.increment()
