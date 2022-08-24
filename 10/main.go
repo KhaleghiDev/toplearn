@@ -12,6 +12,9 @@ type testInter interface {
 type testruct struct {
 	i int
 }
+func newTStract() testInter{
+	return new(testruct)
+}
 
 func (ts *testruct) sayHello() {
 	fmt.Print("Hello \n")
@@ -28,7 +31,7 @@ func (ts *testruct) GetValuePrint() int {
 
 func main() {
 	var test testInter
-	test=&testruct{}
+	test= newTStract()   //&testruct{}
 	test.sayHello()
 	test.say("hi how are you !")
 	test.increment()
