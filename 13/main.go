@@ -5,16 +5,34 @@ import (
 	"os"
 )
 
+// func main() {
+// 	//read and write in file package os
+// 	file,err:=os.Create("index.txt")
+// 	if err != nil {
+// 		fmt.Println("err:" ,err)
+// 		return
+// 	}
+// 	len,err:=file.WriteString("hi file me")
+// 	if err != nil {
+// 		fmt.Println("err:" ,err)
+// 		return
+// 	}
+// 	fmt.Println(len,"character")
+// 	file.Close()
+
+// }
 func main() {
 	//read and write in file package os
-	file,err:=os.Create("index.txt")
+	file,err:=os.Create("index")
 	if err != nil {
 		fmt.Println("err:" ,err)
 		return
 	}
-	len,err:=file.WriteString("hi file me")
+	by:=[]byte{0104 ,122, 164, 154, 200, 189, 58,175,99,58,65,66,101}
+	len,err:=file.Write(by)
 	if err != nil {
 		fmt.Println("err:" ,err)
+		file.Close()
 		return
 	}
 	fmt.Println(len,"character")
