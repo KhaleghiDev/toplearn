@@ -38,5 +38,14 @@ func main() {
 	content, err := reader.Peek(6)
 	errCheck(err)
 	fmt.Printf("content : %s \n", content)
+	//scaner bufio and split
+	f, err := os.Open("test.txt") 
+	errCheck(err)
+	scanner := bufio.NewScanner(f)
+
+	scanner.Split(bufio.ScanWords)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
 
 }
