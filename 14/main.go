@@ -16,5 +16,18 @@ func main() {
 	by, err := ioutil.ReadFile("test.txt") //reade content file
 	errCheck(err)
 	fmt.Println(string(by))
+	////read file os and make 
+	file, err := os.Open("index.txt")
+	errCheck(err)
+	byt := make([]byte, 3)
+	for {
+		number, err := file.Read(byt)
+		errCheck(err)
+		if err != nil {
+			break
+		}
+		fmt.Printf("%d byte ,content %s \n", number, byt)
+	}
+	
 
 }
