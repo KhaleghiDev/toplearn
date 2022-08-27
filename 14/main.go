@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io/ioutil"
+	"os"
 )
 
 func errCheck(e error) {
@@ -16,7 +18,7 @@ func main() {
 	by, err := ioutil.ReadFile("test.txt") //reade content file
 	errCheck(err)
 	fmt.Println(string(by))
-	////read file os and make 
+	////read file os and make
 	file, err := os.Open("index.txt")
 	errCheck(err)
 	byt := make([]byte, 3)
@@ -28,6 +30,13 @@ func main() {
 		}
 		fmt.Printf("%d byte ,content %s \n", number, byt)
 	}
-	
+	//read file bufio  reade and scan
+	files, err := os.Open("index.txt")
+	errCheck(err)
+	reader := bufio.NewReader(files)
+
+	content, err := reader.Peek(6)
+	errCheck(err)
+	fmt.Printf("content : %s \n", content)
 
 }
