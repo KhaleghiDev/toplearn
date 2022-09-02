@@ -1,19 +1,28 @@
-package main
+package router
 
 import (
 	"fmt"
+	"log"
+
 	"net/http"
 )
 
 type root []string
 
 // Rooter can run server
-func Rooter() {
+func Rooter(addr string)error {
 	http.HandleFunc("/", rootHandel)
+	
 	println("start server port :8000...")
-	http.ListenAndServe(":8000", nil)
+	err:=http.ListenAndServe(addr, nil)
+	if err != nil {
+		fmt.Println()
+		log.Fatalf("error : ",err)
+
+	}
+return err
 }
 func rootHandel(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "<h1>Welcom To My Website</h1>")
+	fmt.Fprintf(w, "<h1>Welcom To My Website %s</h1>" ,r.RemoteAddr)
 	fmt.Println("run home page")
 }

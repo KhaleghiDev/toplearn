@@ -1,7 +1,10 @@
 package main
 
+import router "toplearn/15/router"
 
-func main() {
-	Rooter()
+type config struct{
+
 }
-
+func main() {
+	router.Rooter("localhost:8070")
+}
