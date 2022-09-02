@@ -10,10 +10,10 @@ import (
 type root []string
 
 // Rooter can run server
-func Rooter(addr string)error {
+func Rooter(addr string ,lang string)error {
 	http.HandleFunc("/", rootHandel)
 	
-	println("start server port :8000...")
+	log.Println("start server:...",lang)
 	err:=http.ListenAndServe(addr, nil)
 	if err != nil {
 		fmt.Println()
