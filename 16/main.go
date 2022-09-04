@@ -3,14 +3,15 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
+
 	"log"
-	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type register struct {
 	ID         int
-	username   string
+	Name       string
 	email      string
 	password   string
 	creates_at string
@@ -19,15 +20,75 @@ type register struct {
 
 func main() {
 	fmt.Println("mysql db :")
-	db, err := sql.Open("mysql", "root:root@/eventdb")
-	rows, err := db.Query("SELECT * FROM eventdb.register")
+	// metod all
+	all()
+	//metod show
+	show(5)
+	// metod insert
+	insert("hosine")
+	//updete
+	update(4, "nima")
+	delete(1)
+}
+func connectDB() (*sql.DB, error) {
+	nameDriver := "mysql"
+	conneact := "root:@/peple"
+	db, err := sql.Open(nameDriver, conneact)
+	return db, err
+}
+func update(id int, name string) error {
+	db, err := connectDB()
+	reu, err := db.Exec("UPDATE `peple`.`persian` SET `persianname` = ? WHERE (`Id` = ?);", name, id)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(reu.LastInsertId())
+	fmt.Println(reu.RowsAffected())
+	return err
+
+}
+func delete(id int) error {
+	db, err := connectDB()
+	red, err := db.Exec("DELETE FROM `persian` WHERE (`Id` = ?)", id)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(red.LastInsertId())
+	fmt.Println(red.RowsAffected())
+	return err
+}
+func insert(name string) error {
+	db, err := connectDB()
+	res, err := db.Exec("INSERT INTO `persian` (`persianname`) VALUES (?)", name)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(res.LastInsertId())
+	fmt.Println(res.RowsAffected())
+	return err
+}
+func show(id int) error {
+	db, err := connectDB()
+	row := db.QueryRow("SELECT * FROM peple.persian where id=?", id)
+	r := register{}
+	err = row.Scan(&r.ID, &r.Name)
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Println(r)
+	return err
+}
+func all() error {
+	db, err := connectDB()
+	rows, err := db.Query("SELECT * FROM peple.persian;")
 	if err != nil {
 		log.Fatal(err)
 	}
 	reg := []register{}
 	for rows.Next() {
 		r := register{}
-		err = rows.Scan(&r.ID, &r.username, &r.email, &r.password, &r.creates_at, &r.ip)
+		err = rows.Scan(&r.ID, &r.Name)
 		if err != nil {
 			log.Println(err)
 			continue
@@ -36,13 +97,8 @@ func main() {
 		if err = rows.Err(); err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(reg)
+
 	}
-	fmt.Println(db.Stats())
-	//db.Exec("INSERT INTO `eventdb`.`register` (`username`, `email`, `password`, `createat_at`, `definelogin`) VALUES (?, ?, '12345678', '2019-07-01', '192.168.2.2'),"amir","amir@gmail.com")
-	
-	// See "Important settings" section.
-	db.SetConnMaxLifetime(time.Minute * 3)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	fmt.Println(reg)
+	return err
 }
